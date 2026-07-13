@@ -1,17 +1,16 @@
 # flyrank-capstone
 
-My flyrank capstone project for the AI frontend engineering internship
+My Flyrank capstone project for the AI frontend engineering internship.
 
 ## About
 
-A frontend capstone project for the Flyrank engineering internship.
-This project reimagines the Spectranet dashboard and login experience with a modern, fast, and visually intentional UI built as a redesign concept using mock data, since it isn't connected to Spectranet's real systems.
+A frontend redesign concept for Spectranet's self-care dashboard and login experience. The real app has documented UX and usability issues — this project reimagines the login and dashboard screens with a cleaner, more modern design, built with mock data.
 
 ## Stack
 
-- Node.js (LTS)
-- HTML/CSS/JavaScript
-- Framework: TBD
+- HTML
+- CSS
+- JavaScript (vanilla)
 
 ## Status
 

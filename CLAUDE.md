@@ -22,3 +22,9 @@ A frontend redesign concept for the Spectranet self-care web dashboard and login
 - Prefer clear, readable code over clever one-liners
 - Mock data only — no real Spectranet account data or API access
 - I'm still learning JavaScript — favor simple, well-explained solutions over advanced patterns
+
+## Rules learned from Round 1 vs Round 2 comparison (FE-02 drill)
+
+- Domain-specific validation (e.g. Nigerian phone numbers) must match real-world number patterns, not just a digit count — verify against actual valid/invalid examples, not just length.
+- Every form must set `aria-invalid` directly on the input element on validation failure, not just a CSS class on a wrapper — this is required for screen readers to detect the error state.
+- Any validation logic must ship with unit tests I've actually run myself before calling a feature done — a prompt asking for "tests" isn't enough; I need to see the pass/fail output with my own eyes.

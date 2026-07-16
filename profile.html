@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile Settings — Spectranet Selfcare</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/forms.css">
+  <link rel="stylesheet" href="css/profile.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="Main navigation">
+      <div class="sidebar__brand">
+        <div class="sidebar__logo" aria-hidden="true">S</div>
+        <div>
+          <div class="sidebar__name">Spectranet</div>
+          <div class="sidebar__tagline">Selfcare</div>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link">
+          <span class="sidebar__link-icon" aria-hidden="true">&#9632;</span>
+          Dashboard
+        </a>
+        <a href="#" class="sidebar__link">
+          <span class="sidebar__link-icon" aria-hidden="true">&#9679;</span>
+          Data Plans
+        </a>
+        <a href="#" class="sidebar__link">
+          <span class="sidebar__link-icon" aria-hidden="true">&#9650;</span>
+          Usage History
+        </a>
+        <a href="#" class="sidebar__link">
+          <span class="sidebar__link-icon" aria-hidden="true">&#9830;</span>
+          Payments
+        </a>
+        <a href="profile.html" class="sidebar__link sidebar__link--active" aria-current="page">
+          <span class="sidebar__link-icon" aria-hidden="true">&#9786;</span>
+          Profile Settings
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="sidebar__user">
+          <div class="sidebar__avatar" id="sidebar-initials" aria-hidden="true">AO</div>
+          <div>
+            <div class="sidebar__user-name" id="sidebar-user-name">Adaeze Okafor</div>
+            <div class="sidebar__user-id" id="sidebar-user-id">SN-4829103</div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <header class="page-header">
+        <h1 class="page-header__title">Profile Settings</h1>
+        <p class="page-header__subtitle">Update your personal details and notification preferences.</p>
+      </header>
+
+      <div class="page-body">
+        <div id="save-alert" class="alert alert--success" role="status" aria-live="polite">
+          Your profile has been updated successfully.
+        </div>
+
+        <div id="error-alert" class="alert alert--error" role="alert" aria-live="assertive">
+          Please fix the errors below before saving.
+        </div>
+
+        <form id="profile-form" novalidate>
+          <!-- Avatar -->
+          <div class="profile-avatar-section">
+            <div class="profile-avatar" id="avatar-initials" aria-hidden="true">AO</div>
+            <div class="profile-avatar-section__info">
+              <h2 id="display-name">Adaeze Okafor</h2>
+              <p>Your profile photo is generated from your initials.</p>
+            </div>
+          </div>
+
+          <!-- Personal Information -->
+          <section class="form-section" aria-labelledby="personal-info-heading">
+            <div class="form-section__header">
+              <h2 class="form-section__title" id="personal-info-heading">Personal Information</h2>
+              <p class="form-section__description">Keep your contact details up to date. Spectranet sends account alerts to these channels.</p>
+            </div>
+
+            <div class="form-grid form-grid--2">
+              <div class="form-field">
+                <label class="form-label form-label--required" for="firstName">First Name</label>
+                <input class="form-input" type="text" id="firstName" name="firstName" autocomplete="given-name" required>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label form-label--required" for="lastName">Last Name</label>
+                <input class="form-input" type="text" id="lastName" name="lastName" autocomplete="family-name" required>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label form-label--required" for="email">Email Address</label>
+                <input class="form-input" type="email" id="email" name="email" autocomplete="email" required>
+                <span class="form-hint">Used for password resets and billing receipts.</span>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-field">
+                <label class="form-label form-label--required" for="phone">Mobile Number</label>
+                <input class="form-input" type="tel" id="phone" name="phone" autocomplete="tel" placeholder="08012345678" required>
+                <span class="form-hint">Nigerian format: 11 digits starting with 0.</span>
+                <span class="form-error" role="alert"></span>
+              </div>
+
+              <div class="form-field form-field--full">
+                <label class="form-label" for="address">Address</label>
+                <input class="form-input" type="text" id="address" name="address" autocomplete="street-address">
+              </div>
+            </div>
+          </section>
+
+          <!-- Account Details (read-only) -->
+          <section class="form-section" aria-labelledby="account-info-heading">
+            <div class="form-section__header">
+              <h2 class="form-section__title" id="account-info-heading">Account Details</h2>
+              <p class="form-section__description">These fields are tied to your Spectranet subscription and cannot be changed here.</p>
+            </div>
+
+            <div class="form-grid form-grid--2">
+              <div class="form-field">
+                <label class="form-label" for="userId">User ID</label>
+                <input class="form-input" type="text" id="userId" name="userId" readonly aria-readonly="true">
+              </div>
+
+              <div class="form-field">
+                <label class="form-label" for="accountNo">Account Number</label>
+                <input class="form-input" type="text" id="accountNo" name="accountNo" readonly aria-readonly="true">
+              </div>
+
+              <div class="form-field form-field--full">
+                <label class="form-label" for="simCard">SIM Card Number</label>
+                <input class="form-input" type="text" id="simCard" name="simCard" readonly aria-readonly="true">
+              </div>
+            </div>
+          </section>
+
+          <!-- Notifications -->
+          <section class="form-section" aria-labelledby="notifications-heading">
+            <div class="form-section__header">
+              <h2 class="form-section__title" id="notifications-heading">Notifications</h2>
+              <p class="form-section__description">Choose how you want to hear from us.</p>
+            </div>
+
+            <div class="form-grid">
+              <label class="form-toggle" for="emailAlerts">
+                <input class="form-toggle__input" type="checkbox" id="emailAlerts" name="emailAlerts">
+                <span class="form-toggle__content">
+                  <span class="form-toggle__label">Email alerts</span>
+                  <span class="form-toggle__description">Get billing confirmations and plan renewal reminders by email.</span>
+                </span>
+              </label>
+
+              <label class="form-toggle" for="smsAlerts">
+                <input class="form-toggle__input" type="checkbox" id="smsAlerts" name="smsAlerts">
+                <span class="form-toggle__content">
+                  <span class="form-toggle__label">SMS alerts</span>
+                  <span class="form-toggle__description">Receive OTP codes and urgent account updates via SMS.</span>
+                </span>
+              </label>
+
+              <label class="form-toggle" for="usageWarnings">
+                <input class="form-toggle__input" type="checkbox" id="usageWarnings" name="usageWarnings">
+                <span class="form-toggle__content">
+                  <span class="form-toggle__label">Data usage warnings</span>
+                  <span class="form-toggle__description">Notify me when I've used 80% of my data allowance.</span>
+                </span>
+              </label>
+
+              <label class="form-toggle" for="promoEmails">
+                <input class="form-toggle__input" type="checkbox" id="promoEmails" name="promoEmails">
+                <span class="form-toggle__content">
+                  <span class="form-toggle__label">Promotional emails</span>
+                  <span class="form-toggle__description">Hear about new plans, discounts, and device offers.</span>
+                </span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Security -->
+          <section class="form-section" aria-labelledby="security-heading">
+            <div class="form-section__header">
+              <h2 class="form-section__title" id="security-heading">Security</h2>
+              <p class="form-section__description">Manage your account password.</p>
+            </div>
+
+            <div class="security-card">
+              <div class="security-card__info">
+                <h3>Password</h3>
+                <p>Last changed 3 months ago. Use a strong password you don't use elsewhere.</p>
+              </div>
+              <button type="button" class="btn btn--secondary">Change Password</button>
+            </div>
+          </section>
+
+          <!-- Actions -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn--primary">Save Changes</button>
+            <button type="button" class="btn btn--secondary" id="cancel-btn">Cancel</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <script src="data/mock-user.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

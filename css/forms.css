@@ -1,0 +1,115 @@
+.form-group {
+  border: none;
+  padding: 0;
+  margin: 0 0 var(--space-lg) 0;
+}
+
+.form-group legend {
+  font-weight: 600;
+  padding: 0;
+  margin-bottom: var(--space-md);
+}
+
+.field {
+  margin-bottom: var(--space-md);
+}
+
+.field label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  margin-bottom: var(--space-xs);
+}
+
+.field input[type="text"],
+.field input[type="email"],
+.field input[type="tel"] {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  background: var(--color-surface);
+}
+
+.field input[aria-invalid="true"] {
+  border-color: var(--color-error);
+  background: var(--color-error-bg);
+}
+
+.field-hint {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0 0;
+}
+
+.error-message {
+  font-size: var(--font-size-sm);
+  color: var(--color-error);
+  margin: var(--space-xs) 0 0 0;
+  min-height: 1em;
+}
+
+.error-message:empty {
+  display: none;
+}
+
+.field-toggle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.field-toggle label {
+  margin-bottom: 0;
+  font-weight: 400;
+}
+
+.required-mark {
+  color: var(--color-error);
+}
+
+.form-actions {
+  margin-top: var(--space-lg);
+  display: flex;
+  gap: var(--space-sm);
+}
+
+button[type="submit"] {
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button[type="submit"]:hover {
+  background: var(--color-accent-dark);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: var(--space-sm) var(--space-lg);
+  border-radius: var(--radius);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary:hover {
+  background: var(--color-bg);
+}
+
+.success-message {
+  margin-top: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-success-bg);
+  color: var(--color-success);
+  border-radius: var(--radius);
+  font-size: var(--font-size-sm);
+}

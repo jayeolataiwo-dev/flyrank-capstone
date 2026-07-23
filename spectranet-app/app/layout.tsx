@@ -30,7 +30,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
         <header className="border-b">
-          <nav className="container mx-auto px-4 py-3">
+          <nav  className="container mx-auto px-4 py-3 flex flex-wrap gap-x-4">
             <Link href="/" className="font-bold text-xl">
               SpectraNet
             </Link>

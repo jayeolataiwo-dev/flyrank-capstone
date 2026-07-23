@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 export default async function HealthPage() {
   const baseUrl = process.env.VERCEL_URL
     ? `https://${process.env.VERCEL_URL}`

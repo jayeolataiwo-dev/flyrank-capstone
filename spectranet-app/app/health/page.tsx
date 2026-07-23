@@ -1,11 +1,9 @@
-export const dynamic = "force-dynamic";
-export default async function HealthPage() {
-  const baseUrl = process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
+import { getHealthStatus } from "@/lib/health";
 
-  const response = await fetch(`${baseUrl}/api/health`);
-  const data = await response.json();
+export const dynamic = "force-dynamic";
+
+export default function HealthPage() {
+  const data = getHealthStatus();
 
   return (
     <main>

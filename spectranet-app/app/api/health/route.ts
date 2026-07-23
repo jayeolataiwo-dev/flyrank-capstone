@@ -1,3 +1,6 @@
+
+import { getHealthStatus } from "@/lib/health";
+
 export async function GET() {
-  return Response.json({ status: "ok", timestamp: new Date().toISOString() });
+  return Response.json(getHealthStatus());
 }

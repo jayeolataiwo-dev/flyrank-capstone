@@ -1,5 +1,6 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { chatModel, systemPrompt } from "@/lib/ai-config";
+export const runtime = "edge";
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;

@@ -1,5 +1,7 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
 import { chatModel, systemPrompt } from "@/lib/ai-config";
+import { tools } from "@/lib/chat-tools";
+
 export const runtime = "edge";
 
 // Allow streaming responses up to 30 seconds
@@ -12,6 +14,7 @@ export async function POST(req: Request) {
     model: chatModel,
     system: systemPrompt,
     messages: await convertToModelMessages(messages),
+    tools,
   });
 
   return result.toUIMessageStreamResponse();

@@ -2,10 +2,11 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
+import type { ChatMessage } from "@/lib/chat-tools";
 
 export function Chat() {
   const [input, setInput] = useState("");
-  const { messages, sendMessage, status, stop } = useChat();
+  const { messages, sendMessage, status, stop } =  useChat<ChatMessage>();
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [isAtBottom, setIsAtBottom] = useState(true);
@@ -68,11 +69,63 @@ export function Chat() {
                   : "bg-gray-100 text-gray-900 rounded-lg px-4 py-2 max-w-[80%]"
               }
             >
-              {message.parts.map((part, index) =>
-                part.type === "text" ? (
-                  <span key={index}>{part.text}</span>
-                ) : null
-              )}
+              {message.parts.map((part, index) => {
+                if (part.type === "text") {
+                  return <span key={index}>{part.text}</span>;
+                }
+
+                if (part.type === "tool-checkDataBalance") {
+                  return (
+                    <div key={index} className="mt-2">
+                      {part.state === "input-streaming" && (
+                        <div className="text-sm text-gray-400 italic">
+                          Preparing to check your plan...
+                        </div>
+                      )}
+                      {part.state === "input-available" && (
+                        <div className="text-sm text-gray-500 flex items-center gap-2">
+                          <span className="animate-pulse">●</span>
+                          Checking your data balance...
+                        </div>
+                      )}
+                      {part.state === "output-available" && (
+                        <div className="bg-white border-2 border-accent rounded-lg p-4 max-w-xs">
+                          <div className="text-xs text-gray-500 uppercase tracking-wide">
+                            {part.output.planName}
+                          </div>
+                          <div className="text-2xl font-bold text-accent mt-1">
+                            {part.output.dataUsedGB}GB{" "}
+                            <span className="text-sm text-gray-400 font-normal">
+                              / {part.output.dataTotalGB}GB used
+                            </span>
+                          </div>
+                          <div className="w-full bg-gray-200 rounded-full h-2 mt-2">
+                            <div
+                              className="bg-accent h-2 rounded-full"
+                              style={{
+                                width: `${Math.min(
+                                  100,
+                                  (part.output.dataUsedGB / part.output.dataTotalGB) * 100
+                                )}%`,
+                              }}
+                            />
+                          </div>
+                          <div className="text-xs text-gray-500 mt-2">
+                            Renews in {part.output.daysUntilRenewal} days
+                          </div>
+                        </div>
+                      )}
+                      {part.state === "output-error" && (
+                        <div className="bg-red-50 border border-red-300 rounded-lg p-3 text-sm text-red-700">
+                          Couldn't check your data balance right now. Please try again.
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return null;
+              })}
             </div>
           </div>
         ))}

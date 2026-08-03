@@ -34,3 +34,26 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## AI Tool: checkDataBalance
+
+The Spectranet Support Assistant can call one server-side tool.
+
+**Name:** `checkDataBalance`
+
+**Input schema:** none (empty object) — checks the single mock account, no parameters needed.
+
+**Return shape:**
+```ts
+{
+  planName: string;
+  dataUsedGB: number;
+  dataTotalGB: number;
+  daysUntilRenewal: number;
+}
+```
+
+**Behavior:** The assistant calls this automatically whenever a user asks about their data, plan, or usage (defined in the system prompt in `lib/ai-config.ts`). The result renders as a card component in the chat UI (`playground/chat/Chat.tsx`) showing plan name, a usage progress bar, and renewal countdown. Uses mock data only — not connected to a real account.
+
+**States rendered:** `input-streaming` (preparing), `input-available` (checking, pulsing indicator), `output-available` (the card), `output-error` (a styled red error box, not a crash).

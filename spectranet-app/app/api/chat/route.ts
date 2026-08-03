@@ -17,5 +17,12 @@ export async function POST(req: Request) {
     tools,
   });
 
-  return result.toUIMessageStreamResponse();
+return result.toUIMessageStreamResponse({
+    onError: (error) => {
+      if (error == null) return "Unknown error occurred.";
+      if (typeof error === "string") return error;
+      if (error instanceof Error) return error.message;
+      return "Something went wrong.";
+    },
+  });
 }

@@ -104,12 +104,15 @@ export function Chat() {
                           Preparing to check your plan...
                         </div>
                       )}
-                      {part.state === "input-available" && (
-                        <div className="text-sm text-gray-500 flex items-center gap-2">
-                          <span className="animate-pulse">●</span>
-                          Checking your data balance...
+                       {part.state === "input-available" && (
+                        <div className="bg-white border-2 border-gray-200 rounded-lg p-4 max-w-xs animate-pulse">
+                          <div className="h-3 bg-gray-200 rounded w-24 mb-2" />
+                          <div className="h-7 bg-gray-200 rounded w-32 mb-2" />
+                          <div className="w-full bg-gray-200 rounded-full h-2 mb-2" />
+                          <div className="h-3 bg-gray-200 rounded w-20" />
                         </div>
                       )}
+                      
                       {part.state === "output-available" && (
                         <div className="bg-white border-2 border-accent rounded-lg p-4 max-w-xs">
                           <div className="text-xs text-gray-500 uppercase tracking-wide">

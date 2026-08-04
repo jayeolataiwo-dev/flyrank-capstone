@@ -140,11 +140,21 @@ export function Chat() {
                           </div>
                         </div>
                       )}
+                      
+
                       {part.state === "output-error" && (
-                        <div className="bg-red-50 border border-red-300 rounded-lg p-3 text-sm text-red-700">
-                          Couldn't check your data balance right now. Please try again.
-                        </div>
-                      )}
+  <div className="bg-red-50 border border-red-300 rounded-lg p-4 max-w-xs">
+    <div className="font-semibold text-red-700">
+      Unable to check your balance
+    </div>
+    <p className="text-sm text-red-600 mt-1">
+      Something went wrong while retrieving your account information.
+    </p>
+    <div className="text-xs text-red-500 mt-2">
+      Please try your request again.
+    </div>
+  </div>
+)}
                     </div>
                   );
                 }

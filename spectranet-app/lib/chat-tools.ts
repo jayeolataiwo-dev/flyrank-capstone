@@ -8,13 +8,17 @@
 
 import { tool, type InferUITools, type UIDataTypes, type UIMessage } from "ai";
 import { z } from "zod";
-
 export const tools = {
   checkDataBalance: tool({
     description:
       "Check the user's current mock data plan balance and renewal date. Use this whenever the user asks about their data, plan, or usage.",
+
     inputSchema: z.object({}),
-      execute: async () => {
+
+    execute: async () => {
+      // Simulate a network request so the loading skeleton is visible.
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // Mock data only — this is a demo, not a real account lookup.
       return {
         planName: "Spectranet Unlimited Home",

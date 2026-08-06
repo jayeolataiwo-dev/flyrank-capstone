@@ -1,3 +1,4 @@
+# Trigger CI
 name: Tests
 
 on:
@@ -33,3 +34,4 @@ jobs:
           name: playwright-report
           path: spectranet-app/playwright-report/
           retention-days: 30
+

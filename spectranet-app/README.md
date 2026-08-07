@@ -62,3 +62,11 @@ The Spectranet Support Assistant can call one server-side tool.
 - `input-available` – a shape-matching loading skeleton is displayed while waiting for the tool response.
 - `output-available` – the balance card is rendered with the returned data.
 - `output-error` – a styled error card is shown instead of crashing the application.
+
+## 3D Router Viewer
+
+A small interactive 3D product viewer for a Spectranet router, built with React Three Fiber. Change the router's body color (the SPECTRANET text color automatically adapts for readability against each body color), toggle the status LED, and orbit/zoom the model — auto-rotates on load, drag to take control.
+
+**Performance note:** No external 3D model files are used — the router is built entirely from primitive geometry (rounded box, cylinders, spheres) generated in code, so there's no model file to load or compress at all. The 3D canvas itself is lazy-loaded via `next/dynamic` with `ssr: false` and a matching-height skeleton fallback, so it never blocks the initial page render and never causes layout shift when it mounts. Measured LCP: 0.70s, CLS: 0 (both "good" per Chrome's own thresholds).
+
+**What I'd add with more time:** a real `.glb` model with proper materials/textures for a more realistic look, a `prefers-reduced-motion` check to disable the auto-rotate/antenna-sway animations for users who need that, and porting this into the actual Dashboard page as a real product-plan viewer.

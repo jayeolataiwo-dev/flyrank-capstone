@@ -51,6 +51,8 @@ export function Chat() {
         ref={scrollContainerRef}
         onScroll={handleScroll}
         className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4"
+        aria-live="polite"
+        aria-atomic="false"
       >
         {messages.length === 0 && (
           <div className="flex flex-col items-center justify-center h-full text-center px-6">
@@ -218,7 +220,7 @@ export function Chat() {
         ) : (
           <button
             type="submit"
-            className="bg-accent text-white rounded-lg px-4 py-2"
+            className="bg-accent-dark text-white rounded-lg px-4 py-2"
           >
             Send
           </button>

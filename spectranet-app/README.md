@@ -1,72 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Spectranet Redesign — Capstone Project
 
-## Getting Started
+A frontend redesign concept for Spectranet's self-care web experience, built as a capstone project for the Flyrank AI-assisted frontend engineering internship. The real Spectranet app has documented usability issues (confusing login flow, dated visuals, poor Play Store reviews) — this project reimagines the core experience with modern design, an AI support assistant, and a set of hand-built accessible UI components.
 
-First, run the development server:
+**Live production URL:** https://flyrank-capstone-vbpb-two.vercel.app
+
+## What it does
+
+- **Homepage** — a custom WebGL fragment shader hero using Spectranet's real, verified brand colors ("Bay of Many" blue-violet + brand orange), with mouse-reactive flow and a `prefers-reduced-motion` static fallback.
+- **AI Support Assistant** (`/playground-chat`) — a streaming chat interface (Gemini via the Vercel AI SDK) that can look up a mock data balance via a real tool call, rendered as a live progress card. Includes a designed empty state, error/retry handling, and a working stop button.
+- **Accessible UI components** — a Modal, Tabs, and Disclosure widget built entirely by hand (no component library) against the W3C ARIA Authoring Practices patterns: correct roles, full keyboard operation, and a genuine focus trap.
+- **3D Router Configurator** (`/playground-router`) — an interactive React Three Fiber product viewer (change color, toggle the status LED), built from primitive geometry with no external model files.
+- **A Send button** with a fully choreographed motion lifecycle (idle → loading → success/error), respecting reduced motion.
+
+## Screenshots
+
+_(Add screenshots here before final submission: homepage hero, chat with the data-balance card, the 3D router viewer.)_
+
+## Run it locally
+
+```bash
+git clone https://github.com/jayeolataiwo-dev/flyrank-capstone.git
+cd flyrank-capstone/spectranet-app
+npm install --legacy-peer-deps
+```
+
+Create a `.env.local` file in `spectranet-app/` with the variable listed below, then:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable                       | Required                             | Description                                                                                                                                                    |
+| ------------------------------ | ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Yes, for the AI chat feature to work | A free Gemini API key from [aistudio.google.com](https://aistudio.google.com). Everything else in the app works without it — only `/playground-chat` needs it. |
 
-## Learn More
+On Vercel, this is set under **Project Settings → Environment Variables**, scoped to Production and Preview.
 
-To learn more about Next.js, take a look at the following resources:
+## Architecture overview
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- **Framework:** Next.js 16 (App Router), TypeScript, Tailwind CSS v4
+- **AI:** Vercel AI SDK (`ai`, `@ai-sdk/react`, `@ai-sdk/google`) — `streamText` on an Edge Runtime route handler, `useChat` on the client, with one server-side tool (`checkDataBalance`) defined with a Zod schema
+- **3D:** React Three Fiber + drei, primitive geometry only (no external `.glb` files, so nothing to compress/host)
+- **Testing:** Vitest + React Testing Library for component tests (chat states, tool results, button lifecycle), Playwright for one end-to-end test of the primary chat flow, both wired into GitHub Actions CI
+- **Deployment:** Vercel, connected directly to this GitHub repo's `main` branch
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Why these choices
 
-## Deploy on Vercel
+- **No component library for Modal/Tabs/Disclosure** — built by hand deliberately, to genuinely understand ARIA patterns and focus management rather than just importing a working solution. Compared against shadcn/ui afterward (documented in `NOTES.md`) to see what a production library handles that a hand-built version misses.
+- **Gemini instead of Claude for the chat model** — the assignment's linked resources reference Claude, but this project runs on Google's Gemini API instead, specifically because Gemini has a genuinely free, permanent API tier with no credit card required, while Anthropic's and OpenAI's API access is trial-credit-based and ran out during development. The AI SDK is provider-agnostic, so the same `streamText`/`useChat` architecture applies regardless of which model is behind it.
+- **In-memory rate limiting, not a hosted service** — this is a portfolio/demo project on a free API tier; a simple per-IP request counter is enough to stop casual abuse of the public chat endpoint without adding cost or a third-party dependency. Documented as a known limitation, not presented as production-grade.
+- **Router "3D model" is pure code, not a `.glb` file** — avoids the entire model-compression/hosting problem while still satisfying the assignment's real requirement (an interactive, lazy-loaded 3D scene).
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Production hygiene
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/api/chat` is rate-limited (10 requests/minute per IP) and rejects any single message over 2,000 characters, before it reaches the model.
+- `maxDuration = 30` set on the streaming route handler.
+- The Gemini API key lives only in `.env.local` (gitignored) and Vercel's environment variable settings — never committed to the repo.
 
-## AI Tool: checkDataBalance
+## Cross-browser testing
 
-The Spectranet Support Assistant can call one server-side tool.
+- **Chrome (desktop):** fully tested throughout development.
+- **Microsoft Edge (desktop):** tested — homepage and chat flow confirmed working.
+- **Mobile (real device, default browser):** tested directly on a physical phone — homepage and chat flow both confirmed working.
+- **Firefox / Safari (desktop):** not tested — no access to these browsers during development. Noting this honestly rather than claiming untested coverage.
 
-**Name:** `checkDataBalance`
+## How AI tools built this
 
-**Input schema:** none (empty object) — checks the single mock account, no parameters needed.
+This project was built collaboratively with Claude (Anthropic) across most sessions, with ChatGPT used for a few specific stretches. Specifics, not just "AI helped":
 
-**Return shape:**
+- **Real bugs found and fixed together, not just accepted:** a deprecated Gemini model name that 404'd in production, a Vercel Edge-runtime streaming-buffering issue (fixed by adding `export const runtime = "edge"`), a jsdom `scrollTo` limitation in tests, a genuinely broken YAML indentation that silently prevented CI from triggering, and a `useEffect`-timing bug in the Tabs component where keyboard focus wasn't reliably following the active tab.
+- **AI proposed code, human verified every claim before accepting it.** Multiple times, current library syntax was checked against live documentation (AI SDK v5's `tool()`/`inputSchema` API, `InferUITools` for end-to-end type safety) rather than trusting training-data memory, specifically because these libraries had changed significantly across versions.
+- **Design decisions were pushed back on, not accepted first-try.** An early shader palette (guessed near-black + orange) was rejected as "not distinctive enough"; the actual brand colors were looked up and verified (Spectranet's real "Bay of Many" blue-violet, sourced from Brandfetch) rather than continuing to guess.
+- **A dedicated drill (FE-02) compared a one-sentence prompt against a fully-specified one** for the same feature, documented in `WORKFLOW.MD` — including an honest case where the "precise" prompt produced _objectively worse_ domain logic (a weaker phone-number regex) than the vague one, which is written up as a real finding, not smoothed over.
+- **AI did not have final say on scope or priorities.** Given a hard deadline and competing academic exams, task prioritization (what to build fully vs. defer) was a human decision at every step.
 
-```ts
-{
-  planName: string;
-  dataUsedGB: number;
-  dataTotalGB: number;
-  daysUntilRenewal: number;
-}
-```
+## Known limitations / what's next
 
-**Behavior:** The assistant automatically calls this tool whenever a user asks about their data balance, internet plan, or usage. The tool returns mock account information that is rendered as a balance card with a usage progress bar and renewal countdown.
-
-**Rendered tool states:**
-
-- `input-streaming` – preparing to call the tool.
-- `input-available` – a shape-matching loading skeleton is displayed while waiting for the tool response.
-- `output-available` – the balance card is rendered with the returned data.
-- `output-error` – a styled error card is shown instead of crashing the application.
-
-## 3D Router Viewer
-
-A small interactive 3D product viewer for a Spectranet router, built with React Three Fiber. Change the router's body color (the SPECTRANET text color automatically adapts for readability against each body color), toggle the status LED, and orbit/zoom the model — auto-rotates on load, drag to take control.
-
-**Performance note:** No external 3D model files are used — the router is built entirely from primitive geometry (rounded box, cylinders, spheres) generated in code, so there's no model file to load or compress at all. The 3D canvas itself is lazy-loaded via `next/dynamic` with `ssr: false` and a matching-height skeleton fallback, so it never blocks the initial page render and never causes layout shift when it mounts. Measured LCP: 0.70s, CLS: 0 (both "good" per Chrome's own thresholds).
-
-**What I'd add with more time:** a real `.glb` model with proper materials/textures for a more realistic look, a `prefers-reduced-motion` check to disable the auto-rotate/antenna-sway animations for users who need that, and porting this into the actual Dashboard page as a real product-plan viewer.
+- The individual feature demos (`/playground-chat`, `/playground-router`, etc.) are not yet consolidated into the main product pages (`/dashboard`, `/profile`) — the components are built and tested, but wiring them into one cohesive user flow is planned as a final pre-submission pass.
+- Firefox/Safari desktop testing is outstanding.
+- Rate limiting is in-memory only and resets on cold starts — acceptable for this project's scale, not a real production pattern.

@@ -14,7 +14,10 @@ A frontend redesign concept for Spectranet's self-care web experience, built as 
 
 ## Screenshots
 
-_(Add screenshots here before final submission: homepage hero, chat with the data-balance card, the 3D router viewer.)_
+<img width="1920" height="1008" alt="Screenshot 2026-08-15 015455" src="https://github.com/user-attachments/assets/238a65ea-58c3-40b6-90a3-aa2dc43e2b93" />
+<img width="1920" height="1008" alt="Screenshot 2026-08-15 015331" src="https://github.com/user-attachments/assets/815512a1-d4c2-4d50-b1a7-e87318ed9250" />
+<img width="1920" height="1008" alt="Screenshot 2026-08-11 173644" src="https://github.com/user-attachments/assets/5fd2c48d-dcfd-4ec0-82ba-c43ee19fbfb9" />
+
 
 ## Run it locally
 

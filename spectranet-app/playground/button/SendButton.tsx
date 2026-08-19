@@ -7,15 +7,16 @@ type ButtonState = "idle" | "loading" | "success" | "error";
 export function SendButton({
   outcome,
   disabled = false,
+  idleLabel = "Send",
 }: {
   outcome: "random" | "success" | "error";
   disabled?: boolean;
+  idleLabel?: string;
 }) {
   const [state, setState] = useState<ButtonState>("idle");
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const requestIdRef = useRef(0);
 
-  // Clean up any pending timeout if the component unmounts mid-animation.
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -25,17 +26,15 @@ export function SendButton({
   function handleClick() {
     if (state === "loading" || disabled) return;
 
-    // Cancel any stale pending resolution from a previous click, and
-    // bump the request id so an old timeout firing late gets ignored.
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     const thisRequestId = ++requestIdRef.current;
 
     setState("loading");
 
-    const delay = 600 + Math.random() * 800; // 600-1400ms, feels "real"
+    const delay = 600 + Math.random() * 800;
 
     timeoutRef.current = setTimeout(() => {
-      if (requestIdRef.current !== thisRequestId) return; // interrupted, ignore
+      if (requestIdRef.current !== thisRequestId) return;
 
       const willFail =
         outcome === "error" || (outcome === "random" && Math.random() < 0.2);
@@ -54,7 +53,7 @@ export function SendButton({
 
   const label =
     state === "idle"
-      ? "Send"
+      ? idleLabel
       : state === "loading"
       ? ""
       : state === "success"
@@ -77,11 +76,10 @@ export function SendButton({
           ? "bg-red-500 text-white hover:bg-red-600"
           : state === "success"
           ? "bg-green-600 text-white"
-          : "bg-accent text-white hover:bg-accent/90",
+          : "bg-accent-dark text-white hover:bg-accent",
         state === "error" ? "motion-safe:animate-[shake_0.4s_ease-in-out]" : "",
       ].join(" ")}
     >
-      {/* Idle / Retry label */}
       <span
         className={[
           "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out motion-reduce:transition-none",
@@ -93,7 +91,6 @@ export function SendButton({
         {label}
       </span>
 
-      {/* Loading spinner */}
       <span
         className={[
           "absolute inset-0 flex items-center justify-center transition-all duration-200 ease-out motion-reduce:transition-none",
@@ -105,7 +102,6 @@ export function SendButton({
         <span className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full motion-safe:animate-spin" />
       </span>
 
-      {/* Success checkmark */}
       <span
         className={[
           "absolute inset-0 flex items-center justify-center transition-all duration-250 ease-out motion-reduce:transition-none",
